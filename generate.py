@@ -52,7 +52,7 @@ with tf.sg_context(name='generator', size=(4, 1), stride=(2, 1), act='relu', bn=
            .sg_reshape(shape=(-1, 48, 1, 128))
            .sg_upconv(dim=64)
            .sg_upconv(dim=32)
-           .sg_upconv(dim=2, act='sigmoid', bn=False).sg_squeeze())
+           .sg_upconv(dim=2, act='sigmoid', bn=False)) #.sg_squeeze())
 
 
 #
@@ -74,8 +74,8 @@ def run_generator(num, x1, x2, fig_name='sample.png'):
         _, ax = plt.subplots(10, 10, sharex=True, sharey=True)
         for i in range(10):
             for j in range(10):
-                ax[i][j].plot(imgs[i * 10 + j, :, 0])
-                ax[i][j].plot(imgs[i * 10 + j, :, 1])
+                ax[i][j].plot(imgs[i * 10 + j, :, 0], linewidth=1)
+                #ax[i][j].plot(imgs[i * 10 + j, :, 1])
                 ax[i][j].set_axis_off()
         plt.savefig('asset/train/' + fig_name, dpi=600)
         tf.sg_info('Sample image saved to "asset/train/%s"' % fig_name)
