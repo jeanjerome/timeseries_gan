@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sugartensor as tf
 import numpy as np
+from sklearn.preprocessing import MinMaxScaler
 
 
 __author__ = 'njkim@jamonglab.com'
@@ -15,13 +16,14 @@ class TimeSeriesData(object):
         x = x[1:, 1:]
 
         window = 384  # window size
-        max = 3000  # max value
+        scaler = MinMaxScaler(copy=False)
 
         # delete zero pad data
         n = ((np.where(np.any(x, axis=1))[0][-1] + 1) // window) * window
 
         # normalize data between 0 and 1
-        x = x[:n] / max
+        scaler.fit(x[:n])
+        x = scaler.transform(x[:n])
 
         # make to matrix
         X = np.asarray([x[i:i+window] for i in range(n-window)])
